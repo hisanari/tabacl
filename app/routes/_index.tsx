@@ -1,12 +1,13 @@
-import {ActionFunctionArgs, json, MetaFunction, redirect} from "@remix-run/node";
-import { Form } from "@remix-run/react";
-import {useActionData} from "react-router";
+import {
+	ActionFunctionArgs,
+	json,
+	MetaFunction,
+	redirect,
+} from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
-	return [
-		{ title: "ログイン" },
-		{ name: "description", content: "ログイン" },
-	];
+	return [{ title: "ログイン" }, { name: "description", content: "ログイン" }];
 };
 
 export default function Index() {
@@ -48,7 +49,9 @@ export default function Index() {
 							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 						/>
 						{actionData?.errors?.password ? (
-							<p className="text-red-500 text-xs">{actionData?.errors.password}</p>
+							<p className="text-red-500 text-xs">
+								{actionData?.errors.password}
+							</p>
 						) : null}
 					</div>
 
@@ -81,7 +84,7 @@ export default function Index() {
 	);
 }
 
-export async function action({request}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
 	const formData = await request.formData();
 	const email = String(formData.get("email"));
 	const password = String(formData.get("password"));
@@ -97,7 +100,7 @@ export async function action({request}: ActionFunctionArgs) {
 	}
 
 	if (Object.keys(errors).length > 0) {
-		return json({ errors })
+		return json({ errors });
 	}
 
 	return redirect("/");
