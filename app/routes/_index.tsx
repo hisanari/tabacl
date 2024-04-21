@@ -5,6 +5,9 @@ import {
 	redirect,
 } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
+import TextField from "~/components/ui/text_field";
+import Submit_button from "~/components/ui/buttons/submit_button";
+import LinkButton from "~/components/ui/buttons/link_button";
 
 export const meta: MetaFunction = () => {
 	return [{ title: "ログイン" }, { name: "description", content: "ログイン" }];
@@ -14,82 +17,48 @@ export default function Index() {
 	const actionData = useActionData<typeof action>();
 	return (
 		<div className="lg:flex lg:justify-center">
-			<div className="lg:w-1/3 sm:w-full px-8 pt-6 pb-4 mb-4">
-				<h1 className="text-base">ログイン</h1>
-				<Form method="post">
+			<div className="lg:w-1/3 sm:w-full mt-16 mb-4">
+				<Form method="post" className="pt-6 pb-6 px-8 lg:border-solid lg:border-2 lg:border-gray-300 rounded">
 					<div className="mb-4">
-						<label
-							htmlFor="email"
-							className="block text-gray-700 text-sm font-bold mb-2"
-						>
-							メールアドレス
-						</label>
-						<input
-							type="text"
+						<TextField
+							label="メールアドレス"
 							name="email"
 							placeholder="メールアドレス"
-							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							errors={actionData?.errors || {}}
 						/>
-						{actionData?.errors?.email ? (
-							<p className="text-red-500 text-xs">{actionData?.errors.email}</p>
-						) : null}
 					</div>
 
 					<div className="mb-6">
-						<label
-							htmlFor="password"
-							className="block text-gray-700 text-sm font-bold mb-2"
-						>
-							パスワード
-						</label>
-						<input
-							type="password"
+						<TextField
+							label="パスワード"
 							name="password"
 							placeholder="パスワード"
-							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							errors={actionData?.errors || {}}
 						/>
-						{actionData?.errors?.password ? (
-							<p className="text-red-500 text-xs">
-								{actionData?.errors.password}
-							</p>
-						) : null}
 					</div>
 
 					<div className="flex items-center justify-between">
-						<button
-							type="submit"
-							className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-						>
-							ログイン
-						</button>
-						<a
-							className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-							href="/register"
-						>
-							新規登録
-						</a>
-					</div>
-
-					<div className="mt-4">
-						<a
-							className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-							href="/forgot-password"
-						>
-							パスワードを忘れた場合
-						</a>
+						<Submit_button/>
+						<LinkButton name={"新規登録"} href={"/register"}/>
 					</div>
 				</Form>
+				<div className="mt-2 lg:pr-0 text-right">
+					<LinkButton name={"パスワードを忘れた場合"} href={"\"/forgot-password\""}/>
+				</div>
 			</div>
 		</div>
 	);
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({request}: ActionFunctionArgs) {
 	const formData = await request.formData();
 	const email = String(formData.get("email"));
 	const password = String(formData.get("password"));
 
-	const errors = {};
+	const errors = {
+		email: "",
+		password: "",
+	};
 
 	if (!email.includes("@")) {
 		errors.email = "メールアドレスが正しくありません";
