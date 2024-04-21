@@ -39,7 +39,7 @@ export default function Index() {
 
 					<div className="flex items-center justify-between">
 						<Submit_button/>
-						<LinkButton name={"新規登録"} href={"/register"}/>
+						<LinkButton name={"新規登録"} href={"/signup"}/>
 					</div>
 				</Form>
 				<div className="mt-2 lg:pr-0 text-right">
