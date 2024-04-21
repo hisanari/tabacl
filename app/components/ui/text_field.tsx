@@ -22,7 +22,7 @@ export default function TextField({
         type="text"
         name={name}
         placeholder={placeholder}
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       />
       {errors[name] ? (
         <p className="text-red-500 text-xs">{errors[name]}</p>
